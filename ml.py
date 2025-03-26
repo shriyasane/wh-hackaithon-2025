@@ -1,24 +1,22 @@
 from PIL import Image
 from dotenv import load_dotenv
-import os 
+import os
 from openai import OpenAI
-
-client = OpenAI()
 
 load_dotenv()
 
 openai_key = os.getenv("OPENAI_API_KEY")
 
-def process_images(images): 
-    return None 
+client = OpenAI()
 
-def call_api(): 
+def process_images(images):
+    return None
+
+def call_api(messages):
     completion = client.chat.completions.create(
-    model="gpt-4o",
-    messages=[{
-        "role": "user",
-        "content": "Write a one-sentence bedtime story about a unicorn."
-    }]  
+        model="gpt-4o",
+        messages=messages
     )
-
-    print(completion.choices[0].message.content)
+    response = completion.choices[0].message.content
+    messages.append({"role": "assistant", "content": response})
+    return messages
