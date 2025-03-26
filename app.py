@@ -11,7 +11,7 @@ image_demo = gr.Interface(
     fn=display_images,
     inputs=gr.Files(label="Upload Images", type="filepath"),
     outputs=gr.Gallery(label="Uploaded Images"),
-    allow_flagging=False,
+    theme="glass"
 )
 
 image_demo.launch(share=True)
