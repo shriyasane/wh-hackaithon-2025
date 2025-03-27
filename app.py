@@ -25,7 +25,11 @@ def chatbot(messages, user_message):
     return messages
 
 with gr.Blocks(css="styles.css") as demo:
+    gr.Markdown("# Dyscover")
     with gr.Tab("Image Upload"):
+        gr.Markdown("## A tool to help teachers easily flag students that may have dyslexia through their writing samples.")
+        gr.Markdown("### Upload images of your students' writing samples and we'll predict if they show signs of dyslexia. Feel free to head to the Chatbot tab to ask any questions about dyslexia and what tools you can use to help improve your students writing.")
+
         with gr.Row():
             with gr.Column():
                 gr.Markdown("### Dyslexic Predictions")
@@ -44,6 +48,7 @@ with gr.Blocks(css="styles.css") as demo:
         )
 
     with gr.Tab("Chatbot"):
+        gr.Markdown("Feel free to ask any questions about dyslexia and what tools you can use to help improve your students writing.")
         chat_history = gr.Chatbot(type="messages", height=500)
         with gr.Column():
             user_input = gr.Textbox(lines=2, placeholder="Enter your message here...")
