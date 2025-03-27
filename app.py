@@ -3,15 +3,16 @@ from PIL import Image
 from ml import process_images, call_api
 
 def display_images(image_paths):
-    images = [Image.open(image_path) for image_path in image_paths]
-    predictions = process_images(images)
-    
-    prediction_data = [
-        {"Image": f"Image {i+1}", "Class": pred["class"], "Confidence": f"{pred['confidence']:.2f}"}
-        for i, pred in enumerate(predictions)
+    images = [Image.open(image_path) for image_path in image_paths]  # Load images
+    predictions = process_images(images)  # Get predictions
+
+    # Combine images with their captions (predictions)
+    images_with_captions = [
+        (image, f"Class: {pred['class']}, Confidence: {pred['confidence']:.2f}")
+        for image, pred in zip(images, predictions)
     ]
 
-    return images, prediction_data
+    return images_with_captions  # Return images with captions
 
 def chatbot(messages, user_message):
     messages.append({"role": "user", "content": user_message})
@@ -21,10 +22,7 @@ def chatbot(messages, user_message):
 image_demo = gr.Interface(
     fn=display_images,
     inputs=gr.Files(label="Upload Images", type="filepath"),
-    outputs=[
-        gr.Gallery(label="Uploaded Images"),
-        gr.DataFrame(headers=["Image", "Class", "Confidence"], label="Predictions"), 
-    ], 
+    outputs=gr.Gallery(label="Uploaded Images with Predictions"),  # Display images with captions
     theme="glass"
 )
 

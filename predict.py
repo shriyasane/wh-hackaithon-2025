@@ -11,6 +11,7 @@ with open("labels.txt", "r") as f:
 
 def predict(image):
     # Load and preprocess the image
+    img = image 
     if isinstance(image, str):
         img = Image.open(image).convert("RGB")  # Convert to RGB to ensure 3 channels
     img = img.resize((224, 224))
