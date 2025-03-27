@@ -13,14 +13,19 @@ def predict(image):
     # Load and preprocess the image
     img = image; 
     if isinstance(image, str):
+<<<<<<< Updated upstream
         img = img.open(image)  # Resize based on model input
+=======
+        img = Image.open(image).convert("RGB")  # Convert to RGB to ensure 3 channels
+    
+>>>>>>> Stashed changes
     img = img.resize((224, 224))
     img_array = np.array(img) / 255.0  # Normalize pixel values
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
     # Make prediction
-    predictions = model(img_array)  # Call the model
-    predictions = predictions.numpy()  # Convert Tensor to NumPy array
+    predictions_dict = model(img_array)  # Call the model
+    predictions = list(predictions_dict.values())[0]  # Convert Tensor to NumPy array
     class_idx = np.argmax(predictions[0])
     confidence = predictions[0][class_idx]
 
