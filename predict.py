@@ -4,7 +4,7 @@ from PIL import Image
 import sys
 
 # Load the model
-model = tf.keras.models.load_model("saved_model")
+model = tf.keras.models.load_model("model.savedmodel")
 
 # Load labels
 with open("labels.txt", "r") as f:
