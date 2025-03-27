@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 
 # Load the model using TFSMLayer
-model = keras.layers.TFSMLayer("model.savedmodel", call_endpoint="serving_default")
+model = keras.layers.TFSMLayer("savedmodel", call_endpoint="serving_default")
 
 # Load labels
 with open("labels.txt", "r") as f:
