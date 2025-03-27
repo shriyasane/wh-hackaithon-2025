@@ -49,7 +49,7 @@ with gr.Blocks(css="styles.css") as demo:
 
     with gr.Tab("Chatbot"):
         gr.Markdown("Feel free to ask any questions about dyslexia and what tools you can use to help improve your students writing.")
-        chat_history = gr.Chatbot(type="messages", height=500)
+        chat_history = gr.Chatbot(type="messages", height=450)
         with gr.Column():
             user_input = gr.Textbox(lines=2, placeholder="Enter your message here...")
             submit_button = gr.Button("Send")
