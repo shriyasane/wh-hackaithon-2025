@@ -18,6 +18,11 @@ def process_images(images):
     return predictions
 
 def call_api(messages):
+    if len(messages) == 1:
+        messages.append({
+            "role": "system", 
+            "content": "You are a tutor/lesson plan creator to help teachers of children k-2nd grade that have been flagged as potentially having dyslexia, after having their handwritings analyzed. Answer the questions from the teacher with personalized lesson plans to help the students master the writing skills they're struggling with."
+        })
     completion = client.chat.completions.create(
         model="gpt-4o",
         messages=messages
