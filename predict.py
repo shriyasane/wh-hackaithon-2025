@@ -11,14 +11,8 @@ with open("labels.txt", "r") as f:
 
 def predict(image):
     # Load and preprocess the image
-    img = image; 
     if isinstance(image, str):
-<<<<<<< Updated upstream
-        img = img.open(image)  # Resize based on model input
-=======
         img = Image.open(image).convert("RGB")  # Convert to RGB to ensure 3 channels
-    
->>>>>>> Stashed changes
     img = img.resize((224, 224))
     img_array = np.array(img) / 255.0  # Normalize pixel values
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
