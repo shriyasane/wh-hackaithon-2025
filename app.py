@@ -24,7 +24,7 @@ def chatbot(messages, user_message):
     messages = call_api(messages)
     return messages
 
-with gr.Blocks(theme="glass") as demo:
+with gr.Blocks(css="styles.css") as demo:
     with gr.Tab("Image Upload"):
         with gr.Row():
             with gr.Column():
