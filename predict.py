@@ -9,9 +9,12 @@ model = keras.layers.TFSMLayer("model.savedmodel", call_endpoint="serving_defaul
 with open("labels.txt", "r") as f:
     labels = [line.strip() for line in f.readlines()]
 
-def predict(image_path):
+def predict(image):
     # Load and preprocess the image
-    img = Image.open(image_path).resize((224, 224))  # Resize based on model input
+    if isinstance(image, str):
+        img = Image.open(image)  # Resize based on model input
+    
+    img = img.resize((224, 224))
     img_array = np.array(img) / 255.0  # Normalize pixel values
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 

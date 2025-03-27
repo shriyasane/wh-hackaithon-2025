@@ -4,8 +4,14 @@ from ml import process_images, call_api
 
 def display_images(image_paths):
     images = [Image.open(image_path) for image_path in image_paths]
-    processed_images = process_images(images)
-    return processed_images
+    predictions = process_images(images)
+    
+    prediction_data = [
+        {"Image": f"Image {i+1}", "Class": pred["class"], "Confidence": f"{pred['confidence']:.2f}"}
+        for i, pred in enumerate(predictions)
+    ]
+
+    return images, prediction_data
 
 def chatbot(messages, user_message):
     messages.append({"role": "user", "content": user_message})
@@ -15,7 +21,10 @@ def chatbot(messages, user_message):
 image_demo = gr.Interface(
     fn=display_images,
     inputs=gr.Files(label="Upload Images", type="filepath"),
-    outputs=gr.Gallery(label="Uploaded Images"),
+    outputs=[
+        gr.Gallery(label="Uploaded Images"),
+        gr.DataFrame(headers=["Image", "Class", "Confidence"], label="Predictions"), 
+    ], 
     theme="glass"
 )
 
