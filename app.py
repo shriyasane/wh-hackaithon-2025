@@ -21,8 +21,12 @@ def display_images(image_paths):
 
 def chatbot(messages, user_message):
     messages.append({"role": "user", "content": user_message})
-    messages = call_api(messages)
-    return messages
+    response = {"role": "assistant", "content": ""}
+    messages.append(response)
+
+    for chunk in call_api(messages):
+        response["content"] += chunk
+        yield messages.copy()
 
 with gr.Blocks(css="styles.css") as demo:
     gr.Markdown("# Dyscover")
@@ -59,12 +63,9 @@ with gr.Blocks(css="styles.css") as demo:
                 prompt_2 = gr.Button("How can I help a student with dyslexia?")
                 prompt_3 = gr.Button("What are some lesson plans for dyslexic students?")
 
-        def submit_message(messages, user_message):
-            return chatbot(messages, user_message)
-
-        submit_button.click(submit_message, [chat_history, user_input], chat_history)
-        prompt_1.click(submit_message, [chat_history, gr.State("What are signs of dyslexia in k-2?")], chat_history)
-        prompt_2.click(submit_message, [chat_history, gr.State("How can I help a student with dyslexia?")], chat_history)
-        prompt_3.click(submit_message, [chat_history, gr.State("What are some lesson plans for dyslexic students?")], chat_history)
+        submit_button.click(chatbot, [chat_history, user_input], chat_history)
+        prompt_1.click(chatbot, [chat_history, gr.State("What are signs of dyslexia in k-2?")], chat_history)
+        prompt_2.click(chatbot, [chat_history, gr.State("How can I help a student with dyslexia?")], chat_history)
+        prompt_3.click(chatbot, [chat_history, gr.State("What are some lesson plans for dyslexic students?")], chat_history)
 
 demo.launch()

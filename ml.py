@@ -23,10 +23,16 @@ def call_api(messages):
             "role": "system", 
             "content": "You are a tutor/lesson plan creator to help teachers of children k-2nd grade that have been flagged as potentially having dyslexia, after having their handwritings analyzed. Answer the questions from the teacher with personalized lesson plans to help the students master the writing skills they're struggling with."
         })
-    completion = client.chat.completions.create(
+    stream = client.chat.completions.create(
         model="gpt-4o",
-        messages=messages
+        messages=messages, 
+        stream=True
     )
-    response = completion.choices[0].message.content
+    response = ""
+    for chunk in stream:
+        content = chunk.choices[0].delta.content
+        if content: 
+            response += content
+            yield content
+    
     messages.append({"role": "assistant", "content": response})
-    return messages
